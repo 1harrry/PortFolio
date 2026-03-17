@@ -2,12 +2,51 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>MyprofileWeb</title>
+  <title>Hariprasath Portfolio</title>
   <base href="/">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- SEO Meta -->
+  <meta name="description" content="Hariprasath C - .NET Developer Portfolio. 3+ years experience in ASP.NET, Angular, APIs, and enterprise applications.">
+  <meta name="keywords" content=".NET Developer, ASP.NET, Angular, Portfolio, Hariprasath">
+  <meta name="author" content="Hariprasath C">
+
   <link rel="icon" type="image/x-icon" href="favicon.ico">
+
+  <!-- Microsoft Clarity Analytics -->
+  <script type="text/javascript">
+      (function(c,l,a,r,i,t,y){
+          c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+          t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+          y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+      })(window, document, "clarity", "script", "vx9kblregi");
+  </script>
+
 </head>
+
 <body>
   <app-root></app-root>
+
+  <!-- Track Important Portfolio Actions -->
+  <script>
+    function trackResumeDownload() {
+      if (window.clarity) {
+        clarity("event", "resume_download");
+      }
+    }
+
+    function trackScheduleCall() {
+      if (window.clarity) {
+        clarity("event", "schedule_call");
+      }
+    }
+
+    function trackContactSubmit() {
+      if (window.clarity) {
+        clarity("event", "contact_submit");
+      }
+    }
+  </script>
+
 </body>
 </html>

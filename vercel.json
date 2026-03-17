@@ -1,17 +1,4 @@
 {
   "version": 2,
-  "buildCommand": "ng build --configuration production",
-  "outputDirectory": "dist/myprofile-web/browser",
-  "builds": [
-    {
-      "src": "dist/myprofile-web/browser/**",
-      "use": "@vercel/static"
-    }
-  ],
-  "routes": [
-    {
-      "src": "/(.*)",
-      "dest": "/dist/myprofile-web/browser/index.html"
-    }
-  ]
+  "outputDirectory": "dist/myprofile-web/browser"
 }

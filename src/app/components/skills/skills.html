@@ -6,18 +6,22 @@
     </div>
 
     <div class="skills-categories">
-      <div class="skill-category" *ngFor="let category of skills">
-        <h3>{{category.name}}</h3>
-        <div class="skills-grid">
-          <div class="skill-card" *ngFor="let skill of category.items">
-            <div class="skill-icon">{{skill.icon}}</div>
-            <h4>{{skill.name}}</h4>
-            <div class="skill-level">
-              <div class="level-bar" [style.width.%]="skill.level"></div>
-            </div>
+      @for (category of skills; track category) {
+        <div class="skill-category">
+          <h3>{{category.name}}</h3>
+          <div class="skills-grid">
+            @for (skill of category.items; track skill) {
+              <div class="skill-card">
+                <div class="skill-icon">{{skill.icon}}</div>
+                <h4>{{skill.name}}</h4>
+                <div class="skill-level">
+                  <div class="level-bar" [style.width.%]="skill.level"></div>
+                </div>
+              </div>
+            }
           </div>
         </div>
-      </div>
+      }
     </div>
   </div>
 </section>

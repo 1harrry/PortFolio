@@ -7,70 +7,64 @@
 
     <div class="contact-content">
       <div class="contact-info">
-        <div class="info-item">
-          <div class="info-icon">📧</div>
-          <div>
-            <h3>Email</h3>
-            <a href="mailto:hariprasath20.c@gmail.com">hariprasath20.c@gmail.com</a>
+        <h3>Let's connect</h3>
+        <p>I'm always interested in hearing about new opportunities, collaborations, or just having a chat about technology.</p><br><br>
+        
+        <div class="contact-details">
+          
+          <div class="contact-item">
+            <span class="icon">📍</span>
+            <span>Chennai,Tamil Nadu,India</span>
           </div>
-        </div>
-
-        <div class="info-item">
-          <div class="info-icon">📱</div>
-          <div>
-            <h3>Phone</h3>
-            <a href="tel:+917867051553">+91 78670 51553</a>
-          </div>
-        </div>
-
-        <div class="info-item">
-          <div class="info-icon">📍</div>
-          <div>
-            <h3>Location</h3>
-            <p>Tanjore, Tamil Nadu, India</p>
-          </div>
-        </div>
-
-        <div class="social-links">
-          <a href="#" class="social-link">LinkedIn</a>
-          <a href="#" class="social-link">GitHub</a>
-          <a href="#" class="social-link">Twitter</a>
         </div>
       </div>
 
-      <form class="contact-form" (ngSubmit)="onSubmit()" #contactForm="ngForm">
-        <div class="form-group">
-          <input 
-            type="text" 
-            name="name" 
-            [(ngModel)]="formData.name"
-            placeholder="Your Name"
-            required>
-        </div>
+      <div class="contact-form">
+        <form (ngSubmit)="onSubmit()" #contactForm="ngForm">
+          <div class="form-group">
+            <input 
+              type="text" 
+              name="name" 
+              [(ngModel)]="formData.name"
+              placeholder="Your Name"
+              required
+              #name="ngModel">
+            <div class="error" *ngIf="name.invalid && name.touched">
+              Name is required
+            </div>
+          </div>
 
-        <div class="form-group">
-          <input 
-            type="email" 
-            name="email" 
-            [(ngModel)]="formData.email"
-            placeholder="Your Email"
-            required>
-        </div>
+          <div class="form-group">
+            <input 
+              type="email" 
+              name="email" 
+              [(ngModel)]="formData.email"
+              placeholder="Your Email"
+              required
+              email
+              #email="ngModel">
+            <div class="error" *ngIf="email.invalid && email.touched">
+              <span *ngIf="email.errors?.['required']">Email is required</span>
+              <span *ngIf="email.errors?.['email']">Please enter a valid email</span>
+            </div>
+          </div>
 
-        <div class="form-group">
-          <textarea 
-            name="message" 
-            [(ngModel)]="formData.message"
-            placeholder="Your Message"
-            rows="5"
-            required></textarea>
-        </div>
+          <div class="form-group">
+            <textarea 
+              name="message" 
+              [(ngModel)]="formData.message"
+              placeholder="Your Message"
+              rows="5"
+              required
+              #message="ngModel"></textarea>
+            <div class="error" *ngIf="message.invalid && message.touched">
+              Message is required
+            </div>
+          </div>
 
-        <button type="submit" class="submit-btn" [disabled]="!contactForm.valid">
-          Send Message
-          <span class="btn-icon">✈️</span>
-        </button>
-      </form>
+          <button type="submit" [disabled]="contactForm.invalid">Send Message</button>
+        </form>
+      </div>
     </div>
   </div>
 </section>

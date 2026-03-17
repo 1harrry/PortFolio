@@ -6,28 +6,34 @@
     </div>
 
     <div class="timeline">
-      <div class="timeline-item" *ngFor="let exp of experiences; let i = index">
-        <div class="timeline-dot"></div>
-        <div class="timeline-date">{{exp.period}}</div>
-        <div class="timeline-content">
-          <div class="company-info">
-            <h3>{{exp.position}}</h3>
-            <h4>{{exp.company}}</h4>
-            <p class="location">{{exp.location}}</p>
-          </div>
-          
-          <div class="achievements">
-            <h5>Key Achievements:</h5>
-            <ul>
-              <li *ngFor="let achievement of exp.achievements">{{achievement}}</li>
-            </ul>
-          </div>
-          
-          <div class="tech-stack">
-            <span class="tech-tag" *ngFor="let tech of exp.technologies">{{tech}}</span>
+      @for (exp of experiences; track exp; let i = $index) {
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-date">{{exp.period}}</div>
+          <div class="timeline-content">
+            <div class="company-info">
+              <h3>{{exp.position}}</h3>
+              <h4>{{exp.company}}</h4>
+              <p class="location">{{exp.location}}</p>
+            </div>
+            
+            <div class="achievements">
+              <h5>Key Achievements:</h5>
+              <ul>
+                @for (achievement of exp.achievements; track achievement) {
+                  <li>{{achievement}}</li>
+                }
+              </ul>
+            </div>
+            
+            <div class="tech-stack">
+              @for (tech of exp.technologies; track tech) {
+                <span class="tech-tag">{{tech}}</span>
+              }
+            </div>
           </div>
         </div>
-      </div>
+      }
     </div>
   </div>
 </section>

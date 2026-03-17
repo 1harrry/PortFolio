@@ -10,62 +10,59 @@ import emailjs from '@emailjs/browser';
   templateUrl: './contact.html',
   styleUrls: ['./contact.css']
 })
-export class ContactComponent {  
-  formData = {
-    name: '',
-    email: '',
-    message: ''
-  };
+export class ContactComponent {
 
-  // EmailJS configuration
-  private readonly EMAILJS_PUBLIC_KEY = 'onYGRAIwkRMtaoYKZ';
-  private readonly EMAILJS_SERVICE_ID = 'service_apiujh2';
-  private readonly EMAILJS_TEMPLATE_ID = 'template_1dbib4e';  
+  formData = { name: '', email: '', message: '' };
+
+  // Strict email regex: requires local part, @, domain, and valid TLD (2–10 chars)
+  readonly emailPattern = /^[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,10}$/;
+
+  isSubmitting = false;
+  submitSuccess = false;
+  submitError   = false;
+
+  private readonly EMAILJS_PUBLIC_KEY   = 'onYGRAIwkRMtaoYKZ';
+  private readonly EMAILJS_SERVICE_ID   = 'service_apiujh2';
+  private readonly EMAILJS_TEMPLATE_ID  = 'template_1dbib4e';
 
   constructor() {
     emailjs.init(this.EMAILJS_PUBLIC_KEY);
   }
 
   async onSubmit() {
-    if (!this.formData.name || !this.formData.email || !this.formData.message) {
-      alert('Please fill in all fields');
-      return;
-    }
+    if (this.isSubmitting) return;
+
+    // Reset states
+    this.isSubmitting  = true;
+    this.submitSuccess = false;
+    this.submitError   = false;
 
     try {
-      const submitButton = document.querySelector('button[type="submit"]');
-      if (submitButton) {
-        submitButton.textContent = 'Sending...';
-        submitButton.setAttribute('disabled', 'true');
-      }
-
-      console.log('Sending email with data:', this.formData);
-
-      // Match the variable names with your EmailJS template
-      const result = await emailjs.send(
+      await emailjs.send(
         this.EMAILJS_SERVICE_ID,
         this.EMAILJS_TEMPLATE_ID,
         {
-          name: this.formData.name,           // Changed from from_name to name
-          email: this.formData.email,          // Changed from from_email to email
+          name:    this.formData.name,
+          email:   this.formData.email,
           message: this.formData.message,
-          // reply_to: this.formData.email     // Remove if not in template
         }
       );
 
-      console.log('Email sent successfully:', result);
-      alert('✨ Message sent successfully! I\'ll get back to you within 24 hours.');
+      this.submitSuccess = true;
       this.formData = { name: '', email: '', message: '' };
-      
+
+      // Reset button back to idle after 3 s
+      setTimeout(() => { this.submitSuccess = false; }, 3000);
+
     } catch (error) {
       console.error('EmailJS Error:', error);
-      alert('Failed to send message. Please try again or email me directly at hariprasath20.c@gmail.com');
+      this.submitError = true;
+
+      // Allow retry after 3 s
+      setTimeout(() => { this.submitError = false; }, 3000);
+
     } finally {
-      const submitButton = document.querySelector('button[type="submit"]');
-      if (submitButton) {
-        submitButton.textContent = 'Send Message';
-        submitButton.removeAttribute('disabled');
-      }
+      this.isSubmitting = false;
     }
   }
 }

@@ -9,60 +9,121 @@
       <div class="contact-info">
         <h3>Let's connect</h3>
         <p>I'm always interested in hearing about new opportunities, collaborations, or just having a chat about technology.</p><br><br>
-        
+
         <div class="contact-details">
-          
           <div class="contact-item">
             <span class="icon">📍</span>
-            <span>Chennai,Tamil Nadu,India</span>
+            <span>Chennai, Tamil Nadu, India</span>
           </div>
         </div>
       </div>
 
       <div class="contact-form">
-        <form (ngSubmit)="onSubmit()" #contactForm="ngForm">
+        <form (ngSubmit)="onSubmit()" #contactForm="ngForm" novalidate>
+
+          <!-- Name -->
           <div class="form-group">
-            <input 
-              type="text" 
-              name="name" 
+            <input
+              type="text"
+              name="name"
               [(ngModel)]="formData.name"
               placeholder="Your Name"
               required
-              #name="ngModel">
+              minlength="2"
+              #name="ngModel"
+              [class.input-error]="name.invalid && name.touched"
+              [class.input-valid]="name.valid && name.touched">
             <div class="error" *ngIf="name.invalid && name.touched">
-              Name is required
+              <span *ngIf="name.errors?.['required']">⚠ Name is required</span>
+              <span *ngIf="name.errors?.['minlength']">⚠ Name must be at least 2 characters</span>
             </div>
           </div>
 
+          <!-- Email with strict regex pattern -->
           <div class="form-group">
-            <input 
-              type="email" 
-              name="email" 
+            <input
+              type="email"
+              name="email"
               [(ngModel)]="formData.email"
               placeholder="Your Email"
               required
-              email
-              #email="ngModel">
+              [pattern]="emailPattern"
+              #email="ngModel"
+              [class.input-error]="email.invalid && email.touched"
+              [class.input-valid]="email.valid && email.touched">
             <div class="error" *ngIf="email.invalid && email.touched">
-              <span *ngIf="email.errors?.['required']">Email is required</span>
-              <span *ngIf="email.errors?.['email']">Please enter a valid email</span>
+              <span *ngIf="email.errors?.['required']">⚠ Email is required</span>
+              <span *ngIf="email.errors?.['pattern']">⚠ Enter a valid email — e.g. you&#64;example.com</span>
             </div>
           </div>
 
+          <!-- Message -->
           <div class="form-group">
-            <textarea 
-              name="message" 
+            <textarea
+              name="message"
               [(ngModel)]="formData.message"
               placeholder="Your Message"
               rows="5"
               required
-              #message="ngModel"></textarea>
+              minlength="10"
+              #message="ngModel"
+              [class.input-error]="message.invalid && message.touched"
+              [class.input-valid]="message.valid && message.touched"></textarea>
             <div class="error" *ngIf="message.invalid && message.touched">
-              Message is required
+              <span *ngIf="message.errors?.['required']">⚠ Message is required</span>
+              <span *ngIf="message.errors?.['minlength']">⚠ Message must be at least 10 characters</span>
             </div>
           </div>
 
-          <button type="submit" [disabled]="contactForm.invalid">Send Message</button>
+          <!-- Super Styled Submit Button -->
+          <button
+            type="submit"
+            class="submit-btn"
+            [class.btn-loading]="isSubmitting"
+            [class.btn-success]="submitSuccess"
+            [class.btn-error]="submitError"
+            [disabled]="contactForm.invalid || isSubmitting">
+
+            <!-- Idle State -->
+            <span class="btn-content idle-content" *ngIf="!isSubmitting && !submitSuccess && !submitError">
+              <svg class="btn-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="22" y1="2" x2="11" y2="13"></line>
+                <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+              </svg>
+              Send Message
+            </span>
+
+            <!-- Loading State -->
+            <span class="btn-content loading-content" *ngIf="isSubmitting">
+              <span class="orbit-loader">
+                <span class="orbit-ring"></span>
+                <span class="orbit-dot"></span>
+              </span>
+              Sending...
+            </span>
+
+            <!-- Success State -->
+            <span class="btn-content success-content" *ngIf="submitSuccess">
+              <svg class="btn-svg check-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <polyline points="20 6 9 17 4 12"></polyline>
+              </svg>
+              Message Sent!
+            </span>
+
+            <!-- Error State -->
+            <span class="btn-content error-content" *ngIf="submitError">
+              <svg class="btn-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="12" y1="8" x2="12" y2="12"></line>
+                <line x1="12" y1="16" x2="12.01" y2="16"></line>
+              </svg>
+              Try Again
+            </span>
+
+            <!-- Shimmer layer -->
+            <span class="btn-shimmer"></span>
+          </button>
+
         </form>
       </div>
     </div>

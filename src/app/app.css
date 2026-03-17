@@ -1,0 +1,16 @@
+body{
+margin:0;
+font-family:Inter,Arial;
+background:#020617;
+color:white;
+scroll-behavior:smooth;
+}
+
+section{
+padding:80px 10%;
+}
+
+h2{
+font-size:32px;
+margin-bottom:20px;
+}
